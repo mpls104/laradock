@@ -12,6 +12,15 @@ docker-compose stop
 
 ## For ssh
 docker exec -it laradock_workspace_1 bash
+cd /var/www/myapp
+
+### create test file
+php artisan make:test EmployeeTest --unit
+
+### start testing
+./phpunit
 
 ## check
 docker-compose ps
+
+
