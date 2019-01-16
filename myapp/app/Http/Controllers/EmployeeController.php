@@ -2,10 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Service\Employee\EmployeeRegisterService;
+use App\Domain\Model\MailAddress;
+use App\Domain\Model\Name;
+use App\Domain\Model\PhoneNumber;
+use App\Infrastructure\MySQL\Eloquent\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    protected $employeeRegisterService;
+
+    /**
+     * EmployeeController constructor.
+     * @param $employeeRegisterService
+     */
+    public function __construct(EmployeeRegisterService $employeeRegisterService)
+    {
+        $this->employeeRegisterService = $employeeRegisterService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +39,6 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -34,7 +49,14 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $employeeId = $this->employeeRegisterService->registerNew();
+        $newEmployee = new \App\Domain\Model\Employee(
+            $employeeId,
+            new Name($request->name),
+            new MailAddress($request->mail),
+            new PhoneNumber($request->phone)
+        );
+        $this->employeeRegisterService->register($employeeId, $newEmployee);
     }
 
     /**

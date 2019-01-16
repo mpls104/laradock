@@ -21,7 +21,6 @@ class EmployeeQueryServiceTest extends TestCase
     {
         $queryService = new EmployeeQueryService(new EmployeeInMemory());
         $number = new EmployeeNumber('01100');
-        logger("number");
         $this->assertInstanceOf(Employee::class, $queryService->choose($number));
     }
 }

@@ -22,4 +22,24 @@ class EmployeeInMemory implements EmployeeRepository
     {
         return new Employee($employeeNumber, new Name("田中"), new MailAddress("test@gamil.com"), new PhoneNumber("0101010101"));
     }
+
+    public function registerNew(): EmployeeNumber
+    {
+        // TODO: Implement registerNew() method.
+    }
+
+    public function registerName(EmployeeNumber $employeeNumber, Name $name): void
+    {
+        // TODO: Implement registerName() method.
+    }
+
+    public function registerMailAddress(EmployeeNumber $employeeNumber, MailAddress $mailAddress): void
+    {
+        // TODO: Implement registerMailAddress() method.
+    }
+
+    public function registerPhoneNumber(EmployeeNumber $employeeNumber, PhoneNumber $phoneNumber): void
+    {
+        // TODO: Implement registerPhoneNumber() method.
+    }
 }
