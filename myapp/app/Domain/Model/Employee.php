@@ -18,9 +18,10 @@ class Employee
      */
     public function __construct(EmployeeNumber $employeeNumber,
                                 Name $name,
-                                MailAddress $mailAddress,
+                                MailAddress $mailAddress,// FIXME
                                 PhoneNumber $phoneNumber)
     {
+
         $this->employeeNumber = $employeeNumber;
         $this->name = $name;
         $this->mailAddress = $mailAddress;

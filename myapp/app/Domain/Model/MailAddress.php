@@ -9,7 +9,7 @@
 namespace App\Domain\Model;
 
 
-use Mockery\Exception;
+use Symfony\Component\Console\Exception\LogicException;
 
 class MailAddress
 {
@@ -19,17 +19,26 @@ class MailAddress
      * MailAddress constructor.
      * @param string $mailAddress
      */
-    public function __construct(string $mailAddress)
+    public function __construct(?string $mailAddress)
     {
         if (empty($mailAddress)) {
-            throw new Exception("メールアドレスを入力してください");
+            throw new LogicException("メールアドレスを入力してください");
         }
-
+        // TODO validation
+        $this->checkValidEmail($mailAddress);
         $this->value = $mailAddress;
     }
 
     //@override
     public function __toString() :string {
         return $this->value;
+    }
+
+    private function checkValidEmail(String $mail) {
+        //TODO IMPLEMENTS ME!
+        if (!preg_match("/^[a-z0-9A-Z]+@[a-z0-9A-Z]+[a-z0-9A-Z.]/", $mail)) {
+            throw new LogicException("メールアドレスの形式が不正です");
+        }
+
     }
 }

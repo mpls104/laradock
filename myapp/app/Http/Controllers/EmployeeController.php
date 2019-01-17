@@ -6,8 +6,9 @@ use App\Application\Service\Employee\EmployeeRegisterService;
 use App\Domain\Model\MailAddress;
 use App\Domain\Model\Name;
 use App\Domain\Model\PhoneNumber;
-use App\Infrastructure\MySQL\Eloquent\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Exception\LogicException;
 
 class EmployeeController extends Controller
 {
@@ -49,14 +50,21 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $employeeId = $this->employeeRegisterService->registerNew();
-        $newEmployee = new \App\Domain\Model\Employee(
-            $employeeId,
-            new Name($request->name),
-            new MailAddress($request->mail),
-            new PhoneNumber($request->phone)
-        );
-        $this->employeeRegisterService->register($employeeId, $newEmployee);
+        DB::beginTransaction();
+        try {
+            $employeeId = $this->employeeRegisterService->registerNew();
+            $newEmployee = new \App\Domain\Model\Employee(
+                $employeeId,
+                new Name($request->name),
+                new MailAddress($request->mail),
+                new PhoneNumber($request->phone)
+            );
+            $this->employeeRegisterService->register($employeeId, $newEmployee);
+            DB::commit();
+        } catch (LogicException $e){
+            DB::rollBack();
+            throw new \Exception();
+        }
     }
 
     /**
